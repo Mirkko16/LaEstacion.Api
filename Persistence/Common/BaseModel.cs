@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LaEstacion.Common
+namespace LaEstacion.Persistence.Common
 {
     public class BaseModel
     {

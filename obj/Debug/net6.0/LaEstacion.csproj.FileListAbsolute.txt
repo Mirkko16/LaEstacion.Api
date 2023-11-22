@@ -66,3 +66,13 @@ E:\LaEstacion\LaEstacion.Api\obj\Debug\net6.0\refint\LaEstacion.dll
 E:\LaEstacion\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.pdb
 E:\LaEstacion\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.genruntimeconfig.cache
 E:\LaEstacion\LaEstacion.Api\obj\Debug\net6.0\ref\LaEstacion.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\AutoMapper.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\Microsoft.AspNet.OData.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\System.Web.Http.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\Microsoft.OData.Core.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\Microsoft.OData.Edm.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\Microsoft.Spatial.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\Newtonsoft.Json.dll
+E:\LaEstacion\LaEstacion.Api\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
