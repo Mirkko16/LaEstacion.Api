@@ -79,7 +79,7 @@ namespace LaEstacion.Controllers
             }
 
             [HttpDelete("{clienteId}")]
-            public async Task<ActionResult> DeleteActorAsync(int clienteId)
+            public async Task<ActionResult> DeleteClienteAsync(int clienteId)
             {
                 try
                 {

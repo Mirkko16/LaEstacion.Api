@@ -10,9 +10,9 @@
         public string Telefono { get; set; }
         public decimal Debe { get; set; }
         public decimal Haber { get; set; }
-        public char Activo { get; set; }
-        public char CuentaCorriente { get; set; }
-        public char TarjetaSocio { get; set; }
+        public bool Activo { get; set; }
+        public bool CuentaCorriente { get; set; }
+        public bool TarjetaSocio { get; set; }
         public int PuntosTarjeta { get; set; }
         public string NumeroTarjeta { get; set; }
     }
