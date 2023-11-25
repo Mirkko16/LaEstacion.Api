@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LaEstacion.DTO.Request;
 using LaEstacion.DTO.Response;
 using LaEstacion.Persistence.Common.Model;
 
@@ -8,7 +9,14 @@ namespace LaEstacion.AutoMapper
     {
         public CustomProfile() 
         {
-            CreateMap<ClienteModel, ClienteResponse>().ReverseMap(); 
+            CreateMap<ClienteModel, ClienteResponse>().ReverseMap();
+            CreateMap<ClienteModel, ClienteUpdateRequest>().ReverseMap();
+            CreateMap<ClienteModel, ClienteRequest>().ReverseMap();
+
+            //Proveedores
+            CreateMap<ProveedorModel, ProveedorResponse>().ReverseMap();
+            CreateMap<ProveedorModel, ProveedorUpdateRequest>().ReverseMap();
+            CreateMap<ProveedorModel, ProveedorRequest>().ReverseMap();
         }
     }
 }

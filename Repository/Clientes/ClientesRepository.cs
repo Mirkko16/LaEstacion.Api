@@ -70,18 +70,27 @@ namespace LaEstacion.Repository.Clientes
             }
         }
 
-        public async Task<ClienteModel> UpdateCliente(ClienteModel cliente)
+        public async Task<ClienteModel> UpdateCliente(ClienteModel cliente, ClienteModel existingCliente)
         {
             try
             {
-                var cliente_A_Actualizar = await GetClienteById(cliente.Id);
-                cliente_A_Actualizar.Nombre = cliente.Nombre;
-                cliente_A_Actualizar.Apellido = cliente.Apellido;
-                cliente_A_Actualizar.Telefono = cliente.Telefono;
-                cliente_A_Actualizar.Activo = cliente.Activo;
+               
+                existingCliente.Nombre = cliente.Nombre;
+                existingCliente.Apellido = cliente.Apellido;
+                existingCliente.DNI = cliente.DNI;
+                existingCliente.CUIT = cliente.CUIT;
+                existingCliente.Direccion = cliente.Direccion;
+                existingCliente.Localidad = cliente.Localidad;
+                existingCliente.Telefono = cliente.Telefono;
+                existingCliente.Debe = cliente.Debe;
+                existingCliente.Activo = cliente.Activo;
+                existingCliente.CuentaCorriente = cliente.CuentaCorriente;
+                existingCliente.TarjetaSocio = cliente.TarjetaSocio;
+                existingCliente.PuntosTarjeta = cliente.PuntosTarjeta;
+                existingCliente.NumeroTarjeta = cliente.NumeroTarjeta;
 
                 await _context.SaveChangesAsync();
-                return cliente_A_Actualizar;
+                return existingCliente;
             }
             catch (Exception ex)
             {

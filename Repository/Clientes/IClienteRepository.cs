@@ -7,7 +7,7 @@ namespace LaEstacion.Repository.Clientes
         Task<List<ClienteModel>> GetAllClientes();
         Task<ClienteModel?> GetClienteById(int clienteId);
         Task<ClienteModel> AddCliente(ClienteModel cliente);
-        Task<ClienteModel> UpdateCliente(ClienteModel cliente);
+        Task<ClienteModel> UpdateCliente(ClienteModel cliente, ClienteModel existingCliente);
         Task RemoveCliente(int clienteId);        
     }
 }

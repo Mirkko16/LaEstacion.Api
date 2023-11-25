@@ -108,11 +108,11 @@ namespace LaEstacion.Controllers
 
                     var clienteToUpdate = _mapper.Map<ClienteModel>(clienteUpdate);
 
-                    await _repository.UpdateCliente(clienteToUpdate);
+                    await _repository.UpdateCliente(clienteToUpdate,existingCliente);
 
                     var response = _mapper.Map<ClienteResponse>(clienteToUpdate);
 
-                    return StatusCode(StatusCodes.Status201Created, response);
+                    return StatusCode(StatusCodes.Status200OK, response);
                 }
                 catch (Exception ex)
                 {
@@ -120,8 +120,6 @@ namespace LaEstacion.Controllers
                 }
             }
             
-            
-
         }
 } 
 
