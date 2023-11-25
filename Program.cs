@@ -1,6 +1,7 @@
 using LaEstacion.Data;
 using LaEstacion.AutoMapper;
 using LaEstacion.Repository.Clientes;
+using LaEstacion.Repository.Proveedores;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(CustomProfile));
 
 builder.Services.AddScoped<IClienteRepository, ClientesRepository>();
+builder.Services.AddScoped<IProveedorRepository, ProveedoresRepository>();
 
 
 var sqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
