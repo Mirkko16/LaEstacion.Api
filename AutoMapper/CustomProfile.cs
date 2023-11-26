@@ -9,6 +9,7 @@ namespace LaEstacion.AutoMapper
     {
         public CustomProfile() 
         {
+            //Clientes
             CreateMap<ClienteModel, ClienteResponse>().ReverseMap();
             CreateMap<ClienteModel, ClienteUpdateRequest>().ReverseMap();
             CreateMap<ClienteModel, ClienteRequest>().ReverseMap();
@@ -17,6 +18,9 @@ namespace LaEstacion.AutoMapper
             CreateMap<ProveedorModel, ProveedorResponse>().ReverseMap();
             CreateMap<ProveedorModel, ProveedorUpdateRequest>().ReverseMap();
             CreateMap<ProveedorModel, ProveedorRequest>().ReverseMap();
+
+            //Productos
+            
         }
     }
 }
