@@ -20,7 +20,9 @@ namespace LaEstacion.AutoMapper
             CreateMap<ProveedorModel, ProveedorRequest>().ReverseMap();
 
             //Productos
-            
+            CreateMap<ProductoModel, ProductoResponse>().ReverseMap();
+            CreateMap<ProductoModel, ProductoUpdateRequest>().ReverseMap();
+            CreateMap<ProductoModel, ProductoRequest>().ReverseMap();
         }
     }
 }

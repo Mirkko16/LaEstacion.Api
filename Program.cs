@@ -2,8 +2,8 @@ using LaEstacion.Data;
 using LaEstacion.AutoMapper;
 using LaEstacion.Repository.Clientes;
 using LaEstacion.Repository.Proveedores;
-using Microsoft.EntityFrameworkCore;
 using LaEstacion.Repository.Productos;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +18,7 @@ builder.Services.AddAutoMapper(typeof(CustomProfile));
 
 builder.Services.AddScoped<IClienteRepository, ClientesRepository>();
 builder.Services.AddScoped<IProveedorRepository, ProveedoresRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductosRepository>();
 
 
 

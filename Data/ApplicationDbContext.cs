@@ -9,7 +9,8 @@ namespace LaEstacion.Data
         public DbSet<ClienteModel> Clientes { get; set; }
         public DbSet<VentaModel> Ventas { get; set; }
         public DbSet<ProveedorModel> Proveedores { get; set; }
-        
+        public DbSet<ProductoModel> Productos { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options): base(options) {}
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
