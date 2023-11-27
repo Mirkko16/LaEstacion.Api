@@ -1,4 +1,6 @@
-﻿namespace LaEstacion.DTO.Request
+﻿using LaEstacion.Persistence.Common.Model;
+
+namespace LaEstacion.DTO.Request.Producto
 {
     public class ProductoUpdateRequest
     {
@@ -8,7 +10,7 @@
         public int MarcaId { get; set; }
         public int FamiliaId { get; set; }
         public int RubroId { get; set; }
-        public int ProveedorId { get; set; }
+        public ProveedorModel Proveedor { get; set; }
         public decimal Costo { get; set; }
         public decimal Rentabilidad { get; set; }
         public decimal PrecioVenta { get; set; }

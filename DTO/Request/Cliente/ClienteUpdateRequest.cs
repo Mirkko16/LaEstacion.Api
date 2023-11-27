@@ -1,4 +1,4 @@
-﻿namespace LaEstacion.DTO.Request
+﻿namespace LaEstacion.DTO.Request.Cliente
 {
     public class ClienteUpdateRequest
     {

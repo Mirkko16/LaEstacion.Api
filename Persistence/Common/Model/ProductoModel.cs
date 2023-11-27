@@ -4,10 +4,10 @@
     {
         public string Nombre { get; set; }
         public string CodBarra { get; set;}
-        public int MarcaId { get; set;}
-        public int FamiliaId { get; set; }   
-        public int RubroId { get; set;}
-        public int ProveedorId { get; set; }
+        public MarcaModel Marca { get; set;}
+        public FamiliaModel Familia { get; set; }   
+        public RubroModel Rubro { get; set;}
+        public ProveedorModel Proveedor  { get; set; }
         public decimal Costo { get; set; }
         public decimal Rentabilidad { get; set; }
         public decimal PrecioVenta { get; set; }

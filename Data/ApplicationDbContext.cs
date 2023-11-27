@@ -10,14 +10,12 @@ namespace LaEstacion.Data
         public DbSet<VentaModel> Ventas { get; set; }
         public DbSet<ProveedorModel> Proveedores { get; set; }
         public DbSet<ProductoModel> Productos { get; set; }
+        public DbSet<MarcaModel> Marcas { get; set; }
+        public DbSet<FamiliaModel> Familias { get; set; }
+        public DbSet<RubroModel> Rubros { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options): base(options) {}
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
-        //    modelBuilder.Entity<UsuarioModel>().HasData(
-        //            new UsuarioModel { Id = 1, Nombre = "Prueba", Apellido = "Prueba1" }
-        //        );
-        //}
+        
     }
 }

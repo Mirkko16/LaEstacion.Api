@@ -56,11 +56,11 @@ namespace LaEstacion.Repository.Proveedores
             }
         }
 
-        public async Task RemoveProveedor(int proveeodrId)
+        public async Task RemoveProveedor(int proveedorId)
         {
             try
             {
-                var index = await GetProveedorById(proveeodrId);
+                var index = await GetProveedorById(proveedorId);
                 _context.Proveedores.Remove(index);
                 await _context.SaveChangesAsync();
             }

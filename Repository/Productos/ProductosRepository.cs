@@ -32,7 +32,12 @@ namespace LaEstacion.Repository.Productos
         {
             try
             {
-                var productos = await _context.Productos.ToListAsync();
+                var productos = await _context.Productos
+                    .Include(x => x.Marca)
+                    .Include(x => x.Familia)
+                    .Include(x => x.Rubro)
+                    .Include(x => x.Proveedor)
+                    .ToListAsync();
                 return productos;
             }
             catch (Exception ex)
@@ -77,10 +82,10 @@ namespace LaEstacion.Repository.Productos
 
                 existingProducto.Nombre = producto.Nombre;
                 existingProducto.CodBarra = producto.CodBarra;
-                existingProducto.MarcaId = producto.MarcaId;
-                existingProducto.FamiliaId = producto.FamiliaId;
-                existingProducto.RubroId = producto.RubroId;
-                existingProducto.ProveedorId = producto.ProveedorId;
+                existingProducto.Marca = producto.Marca;
+                existingProducto.Familia = producto.Familia;
+                existingProducto.Rubro = producto.Rubro;
+                existingProducto.Proveedor = producto.Proveedor;
                 existingProducto.Costo = producto.Costo;
                 existingProducto.Rentabilidad = producto.Rentabilidad;
                 existingProducto.PrecioVenta = producto.PrecioVenta;

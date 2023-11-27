@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaEstacion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231126224916_firstCommit")]
-    partial class firstCommit
+    [Migration("20231127131839_firstcommit")]
+    partial class firstcommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,6 +131,8 @@ namespace LaEstacion.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProveedorId");
 
                     b.ToTable("Productos");
                 });
@@ -256,6 +258,17 @@ namespace LaEstacion.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("Ventas");
+                });
+
+            modelBuilder.Entity("LaEstacion.Persistence.Common.Model.ProductoModel", b =>
+                {
+                    b.HasOne("LaEstacion.Persistence.Common.Model.ProveedorModel", "Proveedor")
+                        .WithMany()
+                        .HasForeignKey("ProveedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proveedor");
                 });
 
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.VentaModel", b =>

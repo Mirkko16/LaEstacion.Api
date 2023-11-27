@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using LaEstacion.DTO.Request;
 using LaEstacion.DTO.Response;
 using LaEstacion.Persistence.Common.Model;
 using LaEstacion.Repository.Clientes;
+using LaEstacion.DTO.Request.Cliente;
 
 namespace LaEstacion.Controllers
 {
-        
-        [Route("api/[controller]")]
+
+    [Route("api/[controller]")]
         [ApiController]
         public class ClientesController : ControllerBase
         {

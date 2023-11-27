@@ -4,6 +4,7 @@ using LaEstacion.Repository.Clientes;
 using LaEstacion.Repository.Proveedores;
 using LaEstacion.Repository.Productos;
 using Microsoft.EntityFrameworkCore;
+using LaEstacion.Repository.Marcas;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddAutoMapper(typeof(CustomProfile));
 builder.Services.AddScoped<IClienteRepository, ClientesRepository>();
 builder.Services.AddScoped<IProveedorRepository, ProveedoresRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductosRepository>();
+builder.Services.AddScoped<IMarcaRepository, MarcasRepository>();
 
 
 

@@ -1,8 +1,8 @@
-﻿namespace LaEstacion.DTO.Request
+﻿namespace LaEstacion.DTO.Request.Cliente
 {
     public class ClienteRequest
     {
-        
+
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string DNI { get; set; }

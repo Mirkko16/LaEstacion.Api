@@ -1,6 +1,6 @@
-﻿namespace LaEstacion.DTO.Request
+﻿namespace LaEstacion.DTO.Request.Proveedor
 {
-    public class ProveedorRequest
+    public class ProveedorUpdateRequest
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

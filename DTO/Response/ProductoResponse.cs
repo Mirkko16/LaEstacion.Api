@@ -1,14 +1,16 @@
-﻿namespace LaEstacion.DTO.Response
+﻿using LaEstacion.Persistence.Common.Model;
+
+namespace LaEstacion.DTO.Response
 {
     public class ProductoResponse
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string CodBarra { get; set; }
-        public int Marca { get; set; }
-        public int Familia { get; set; }
-        public int Rubro { get; set; }
-        public int Proveedor { get; set; }
+        public MarcaModel Marca { get; set; }
+        public FamiliaModel Familia { get; set; }
+        public RubroModel Rubro { get; set; }
+        public ProveedorModel Proveedor{get; set; }
         public decimal Costo { get; set; }
         public decimal Rentabilidad { get; set; }
         public decimal PrecioVenta { get; set; }

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using LaEstacion.DTO.Request;
 using LaEstacion.DTO.Response;
 using LaEstacion.Persistence.Common.Model;
 using LaEstacion.Repository.Productos;
+using LaEstacion.DTO.Request.Producto;
 
 namespace LaEstacion.Controllers
 {
