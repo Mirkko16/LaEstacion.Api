@@ -5,6 +5,8 @@ using LaEstacion.Repository.Proveedores;
 using LaEstacion.Repository.Productos;
 using Microsoft.EntityFrameworkCore;
 using LaEstacion.Repository.Marcas;
+using LaEstacion.Repository.Familias;
+using LaEstacion.Repository.Rubros;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +20,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(CustomProfile));
 
 builder.Services.AddScoped<IClienteRepository, ClientesRepository>();
-builder.Services.AddScoped<IProveedorRepository, ProveedoresRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductosRepository>();
+builder.Services.AddScoped<IProveedorRepository, ProveedoresRepository>();
 builder.Services.AddScoped<IMarcaRepository, MarcasRepository>();
+builder.Services.AddScoped<IFamiliaRepository, FamiliasRepository>();
+builder.Services.AddScoped<IRubroRepository, RubrosRepository>();
 
 
 

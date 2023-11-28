@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LaEstacion.Repository.Rubros
 {
-    public class RuborosRepository : IRubroRepository
+    public class RubrosRepository : IRubroRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public RuborosRepository(ApplicationDbContext context)
+        public RubrosRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -52,7 +52,7 @@ namespace LaEstacion.Repository.Rubros
             catch (Exception ex)
             {
 
-                throw new Exception("Familia no encontrada", ex);
+                throw new Exception("Rubro no encontrada", ex);
             }
         }
 
