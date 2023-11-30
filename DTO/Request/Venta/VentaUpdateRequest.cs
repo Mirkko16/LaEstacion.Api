@@ -1,14 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using LaEstacion.Persistence.Common.Model;
 
-namespace LaEstacion.Persistence.Common.Model
+namespace LaEstacion.DTO.Request.Venta
 {
-    public class VentaModel : BaseModel
+    public class VentaUpdateRequest
     {
-
+        public int Id { get; set; }
         public int NumVenta { get; set; }
-        public ClienteModel Cliente {get;set;}  
-        public ProductoModel Producto { get;set;}
+        public ClienteModel Cliente { get; set; }
+        public ProductoModel Producto { get; set; }
         public DateTime FechaVenta { get; set; }
         public string TipoPago { get; set; }
         public string TipoComprobante { get; set; }

@@ -64,11 +64,9 @@ namespace LaEstacion.Controllers
             {
                 try
                 {
-                    var clienteToAdd = _mapper.Map<ClienteModel>(clienteRequest);
+                    var clienteToAdd = _mapper.Map<ClienteModel>(clienteRequest);                    
 
-                    await _repository.AddCliente(clienteToAdd);
-
-                    var response = _mapper.Map<ClienteResponse>(clienteToAdd);
+                    var response = _mapper.Map<ClienteResponse>(await _repository.AddCliente(clienteToAdd));
 
                     return StatusCode(StatusCodes.Status201Created, response);
                 }
@@ -103,14 +101,10 @@ namespace LaEstacion.Controllers
                 try
                 {
                     var existingCliente = await _repository.GetClienteById(clienteUpdate.Id);
-
                     if (existingCliente is null) return StatusCode(StatusCodes.Status404NotFound);
+                    var clienteToUpdate = _mapper.Map<ClienteModel>(clienteUpdate);                    
 
-                    var clienteToUpdate = _mapper.Map<ClienteModel>(clienteUpdate);
-
-                    await _repository.UpdateCliente(clienteToUpdate,existingCliente);
-
-                    var response = _mapper.Map<ClienteResponse>(clienteToUpdate);
+                    var response = _mapper.Map<ClienteResponse>(await _repository.UpdateCliente(clienteToUpdate, existingCliente));
 
                     return StatusCode(StatusCodes.Status200OK, response);
                 }

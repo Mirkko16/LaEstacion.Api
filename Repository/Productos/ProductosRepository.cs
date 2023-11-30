@@ -70,6 +70,10 @@ namespace LaEstacion.Repository.Productos
                         productoToAdd.Proveedor = proveedor;
                     }
                 }
+                if (productoRequest.Rentabilidad != 0) 
+                {
+                    productoToAdd.PrecioVenta = ((productoToAdd.Costo * productoToAdd.Rentabilidad) / 100) + (productoToAdd.Costo);
+                }
 
                 _context.Productos.Add(productoToAdd);
                 await _context.SaveChangesAsync();
@@ -171,7 +175,7 @@ namespace LaEstacion.Repository.Productos
                 productoToUpdate.CodBarra = productoUpdate.CodBarra;                
                 productoToUpdate.Costo = productoUpdate.Costo;
                 productoToUpdate.Rentabilidad = productoUpdate.Rentabilidad;
-                productoToUpdate.PrecioVenta = productoUpdate.PrecioVenta;
+                productoToUpdate.PrecioVenta = ((productoUpdate.Costo * productoUpdate.Rentabilidad) / 100) + (productoToUpdate.Costo);
                 productoToUpdate.Stock = productoUpdate.Stock;
                 productoToUpdate.Eliminado = productoUpdate.Eliminado;
                 
