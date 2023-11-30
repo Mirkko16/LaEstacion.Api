@@ -1,4 +1,5 @@
-﻿using LaEstacion.Persistence.Common.Model;
+﻿using LaEstacion.DTO.Request.Producto;
+using LaEstacion.Persistence.Common.Model;
 
 namespace LaEstacion.Repository.Productos
 {
@@ -6,8 +7,8 @@ namespace LaEstacion.Repository.Productos
     {
         Task<List<ProductoModel>> GetAllProductos();
         Task<ProductoModel?> GetProductoById(int productoId);
-        Task<ProductoModel> AddProducto(ProductoModel producto);
-        Task<ProductoModel> UpdateProducto(ProductoModel producto, ProductoModel existingProducto);
+        Task<ProductoModel> AddProducto(ProductoRequest producto);
+        Task<ProductoModel> UpdateProducto(ProductoUpdateRequest producto, ProductoModel existingProducto);
         Task RemoveProducto(int producto);
     }
 }

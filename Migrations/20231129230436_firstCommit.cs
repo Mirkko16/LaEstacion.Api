@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LaEstacion.Migrations
 {
-    public partial class firstcommit : Migration
+    public partial class firstCommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,6 +36,34 @@ namespace LaEstacion.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Familias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Eliminada = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Familias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Marcas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Eliminada = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Marcas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Proveedores",
                 columns: table => new
                 {
@@ -54,6 +82,20 @@ namespace LaEstacion.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Proveedores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rubros",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rubros", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,17 +164,50 @@ namespace LaEstacion.Migrations
                 {
                     table.PrimaryKey("PK_Productos", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Productos_Familias_FamiliaId",
+                        column: x => x.FamiliaId,
+                        principalTable: "Familias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Productos_Marcas_MarcaId",
+                        column: x => x.MarcaId,
+                        principalTable: "Marcas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Productos_Proveedores_ProveedorId",
                         column: x => x.ProveedorId,
                         principalTable: "Proveedores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Productos_Rubros_RubroId",
+                        column: x => x.RubroId,
+                        principalTable: "Rubros",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Productos_FamiliaId",
+                table: "Productos",
+                column: "FamiliaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Productos_MarcaId",
+                table: "Productos",
+                column: "MarcaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Productos_ProveedorId",
                 table: "Productos",
                 column: "ProveedorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Productos_RubroId",
+                table: "Productos",
+                column: "RubroId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ventas_ClienteId",
@@ -152,7 +227,16 @@ namespace LaEstacion.Migrations
                 name: "Ventas");
 
             migrationBuilder.DropTable(
+                name: "Familias");
+
+            migrationBuilder.DropTable(
+                name: "Marcas");
+
+            migrationBuilder.DropTable(
                 name: "Proveedores");
+
+            migrationBuilder.DropTable(
+                name: "Rubros");
 
             migrationBuilder.DropTable(
                 name: "Clientes");

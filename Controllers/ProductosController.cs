@@ -4,6 +4,10 @@ using LaEstacion.DTO.Response;
 using LaEstacion.Persistence.Common.Model;
 using LaEstacion.Repository.Productos;
 using LaEstacion.DTO.Request.Producto;
+using LaEstacion.Repository.Marcas;
+using LaEstacion.Repository.Familias;
+using LaEstacion.Repository.Rubros;
+using LaEstacion.Repository.Proveedores;
 
 namespace LaEstacion.Controllers
 {
@@ -13,12 +17,12 @@ namespace LaEstacion.Controllers
     public class ProductosController : ControllerBase
     {
         private readonly IProductoRepository _repository;
-        private readonly IMapper _mapper;
+        private readonly IMapper _mapper;        
 
-        public ProductosController(IProductoRepository repository, IMapper mapper)
+        public ProductosController(IProductoRepository productorepository, IMapper mapper)
         {
-            _repository = repository;
-            _mapper = mapper;
+            _repository = productorepository;            
+            _mapper = mapper;            
         }
 
 
@@ -64,11 +68,7 @@ namespace LaEstacion.Controllers
         {
             try
             {
-                var productoToAdd = _mapper.Map<ProductoModel>(productoRequest);
-
-                await _repository.AddProducto(productoToAdd);
-
-                var response = _mapper.Map<ProductoResponse>(productoToAdd);
+                var response = _mapper.Map<ProductoResponse>(await _repository.AddProducto(productoRequest));
 
                 return StatusCode(StatusCodes.Status201Created, response);
             }
@@ -100,19 +100,19 @@ namespace LaEstacion.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateProductoAsync(ProductoUpdateRequest productoUpdate)
         {
+
             try
             {
-                var existingProducto = await _repository.GetProductoById(productoUpdate.Id);
+                // Update MarcaModel relationship
+                {
+                    var existingProducto = await _repository.GetProductoById(productoUpdate.Id);
+                    if (existingProducto is null) return StatusCode(StatusCodes.Status404NotFound);
+                    var productoToUpdate = _mapper.Map<ProductoModel>(productoUpdate);                    
 
-                if (existingProducto is null) return StatusCode(StatusCodes.Status404NotFound);
+                    var response = _mapper.Map<ProductoResponse>(await _repository.UpdateProducto(productoUpdate, existingProducto));
 
-                var productoToUpdate = _mapper.Map<ProductoModel>(productoUpdate);
-
-                await _repository.UpdateProducto(productoToUpdate, existingProducto);
-
-                var response = _mapper.Map<ProductoResponse>(productoToUpdate);
-
-                return StatusCode(StatusCodes.Status200OK, response);
+                    return StatusCode(StatusCodes.Status200OK, response);
+                }
             }
             catch (Exception ex)
             {

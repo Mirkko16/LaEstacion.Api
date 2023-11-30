@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaEstacion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231127131839_firstcommit")]
-    partial class firstcommit
+    [Migration("20231129230436_firstCommit")]
+    partial class firstCommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,6 +87,46 @@ namespace LaEstacion.Migrations
                     b.ToTable("Clientes");
                 });
 
+            modelBuilder.Entity("LaEstacion.Persistence.Common.Model.FamiliaModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Eliminada")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Familias");
+                });
+
+            modelBuilder.Entity("LaEstacion.Persistence.Common.Model.MarcaModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Eliminada")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marcas");
+                });
+
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.ProductoModel", b =>
                 {
                     b.Property<int>("Id")
@@ -132,7 +172,13 @@ namespace LaEstacion.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FamiliaId");
+
+                    b.HasIndex("MarcaId");
+
                     b.HasIndex("ProveedorId");
+
+                    b.HasIndex("RubroId");
 
                     b.ToTable("Productos");
                 });
@@ -180,6 +226,26 @@ namespace LaEstacion.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Proveedores");
+                });
+
+            modelBuilder.Entity("LaEstacion.Persistence.Common.Model.RubroModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rubros");
                 });
 
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.UsuarioModel", b =>
@@ -262,13 +328,37 @@ namespace LaEstacion.Migrations
 
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.ProductoModel", b =>
                 {
+                    b.HasOne("LaEstacion.Persistence.Common.Model.FamiliaModel", "Familia")
+                        .WithMany()
+                        .HasForeignKey("FamiliaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LaEstacion.Persistence.Common.Model.MarcaModel", "Marca")
+                        .WithMany()
+                        .HasForeignKey("MarcaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("LaEstacion.Persistence.Common.Model.ProveedorModel", "Proveedor")
                         .WithMany()
                         .HasForeignKey("ProveedorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LaEstacion.Persistence.Common.Model.RubroModel", "Rubro")
+                        .WithMany()
+                        .HasForeignKey("RubroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Familia");
+
+                    b.Navigation("Marca");
+
                     b.Navigation("Proveedor");
+
+                    b.Navigation("Rubro");
                 });
 
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.VentaModel", b =>

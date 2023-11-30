@@ -1,5 +1,11 @@
-﻿using LaEstacion.Data;
+﻿using AutoMapper;
+using LaEstacion.Data;
+using LaEstacion.DTO.Request.Producto;
 using LaEstacion.Persistence.Common.Model;
+using LaEstacion.Repository.Familias;
+using LaEstacion.Repository.Marcas;
+using LaEstacion.Repository.Proveedores;
+using LaEstacion.Repository.Rubros;
 using Microsoft.EntityFrameworkCore;
 
 namespace LaEstacion.Repository.Productos
@@ -7,19 +13,68 @@ namespace LaEstacion.Repository.Productos
     public class ProductosRepository : IProductoRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IMarcaRepository _marcasRepository;
+        private readonly IFamiliaRepository _familiasRepository;
+        private readonly IRubroRepository _rubrosRepository;
+        private readonly IProveedorRepository _proveedoresRepository;
 
-        public ProductosRepository(ApplicationDbContext context)
+        public ProductosRepository(ApplicationDbContext context, IMapper mapper, IMarcaRepository marcasRepository, 
+            IFamiliaRepository familiasRepository, IRubroRepository rubrosRepository, 
+            IProveedorRepository proveedoresRepository)
         {
             _context = context;
+            _mapper = mapper;
+            _marcasRepository = marcasRepository;
+            _familiasRepository = familiasRepository;
+            _rubrosRepository = rubrosRepository;
+            _proveedoresRepository = proveedoresRepository;
         }
 
-        public async Task<ProductoModel> AddProducto(ProductoModel producto)
+
+        public async Task<ProductoModel> AddProducto(ProductoRequest productoRequest)
         {
             try
             {
-                _context.Productos.Add(producto);
+                var productoToAdd = _mapper.Map<ProductoModel>(productoRequest);
+
+                if (productoRequest.MarcaId != 0)
+                {
+                    var marca = await _marcasRepository.GetMarcaById(productoRequest.MarcaId);
+                    if (marca != null)
+                    {
+                        productoToAdd.Marca = marca;
+                    }
+                }
+                if (productoRequest.FamiliaId != 0)
+                {
+                    var familia = await _familiasRepository.GetFamiliaById(productoRequest.FamiliaId);
+                    if (familia != null)
+                    {
+                        productoToAdd.Familia = familia;
+                    }
+                }
+                if (productoRequest.RubroId > 0)
+                {
+                    var rubro = await _rubrosRepository.GetRubroById(productoRequest.RubroId);
+                    if (rubro != null)
+                    {
+                        productoToAdd.Rubro = rubro;
+                    }
+                }
+                if (productoRequest.ProveedorId > 0)
+                {
+                    var proveedor = await _proveedoresRepository.GetProveedorById(productoRequest.ProveedorId);
+                    if (proveedor != null)
+                    {
+                        productoToAdd.Proveedor = proveedor;
+                    }
+                }
+
+                _context.Productos.Add(productoToAdd);
                 await _context.SaveChangesAsync();
-                return producto;
+                
+                return productoToAdd;
             }
             catch (Exception ex)
             {
@@ -75,26 +130,54 @@ namespace LaEstacion.Repository.Productos
             }
         }
 
-        public async Task<ProductoModel> UpdateProducto(ProductoModel producto, ProductoModel existingProducto)
+        public async Task<ProductoModel> UpdateProducto(ProductoUpdateRequest productoUpdate, ProductoModel productoToUpdate)
         {
             try
             {
+                if (productoUpdate.MarcaId > 0)
+                {
+                    var marca = await _marcasRepository.GetMarcaById(productoUpdate.MarcaId);
+                    if (marca != null)
+                    {
+                        productoToUpdate.Marca = marca;
+                    }
+                }
+                if (productoUpdate.FamiliaId > 0)
+                {
+                    var familia = await _familiasRepository.GetFamiliaById(productoUpdate.FamiliaId);
+                    if (familia != null)
+                    {
+                        productoToUpdate.Familia = familia;
+                    }
+                }
+                if (productoUpdate.RubroId > 0)
+                {
+                    var rubro = await _rubrosRepository.GetRubroById(productoUpdate.RubroId);
+                    if (rubro != null)
+                    {
+                        productoToUpdate.Rubro = rubro;
+                    }
+                }
+                if (productoUpdate.ProveedorId > 0)
+                {
+                    var proveedor = await _proveedoresRepository.GetProveedorById(productoUpdate.ProveedorId);
+                    if (proveedor != null)
+                    {
+                        productoToUpdate.Proveedor = proveedor;
+                    }
+                }
 
-                existingProducto.Nombre = producto.Nombre;
-                existingProducto.CodBarra = producto.CodBarra;
-                existingProducto.Marca = producto.Marca;
-                existingProducto.Familia = producto.Familia;
-                existingProducto.Rubro = producto.Rubro;
-                existingProducto.Proveedor = producto.Proveedor;
-                existingProducto.Costo = producto.Costo;
-                existingProducto.Rentabilidad = producto.Rentabilidad;
-                existingProducto.PrecioVenta = producto.PrecioVenta;
-                existingProducto.Stock = producto.Stock;
-                existingProducto.Eliminado = producto.Eliminado;
+                productoToUpdate.Nombre = productoUpdate.Nombre;
+                productoToUpdate.CodBarra = productoUpdate.CodBarra;                
+                productoToUpdate.Costo = productoUpdate.Costo;
+                productoToUpdate.Rentabilidad = productoUpdate.Rentabilidad;
+                productoToUpdate.PrecioVenta = productoUpdate.PrecioVenta;
+                productoToUpdate.Stock = productoUpdate.Stock;
+                productoToUpdate.Eliminado = productoUpdate.Eliminado;
                 
 
                 await _context.SaveChangesAsync();
-                return existingProducto;
+                return productoToUpdate;
             }
             catch (Exception ex)
             {
