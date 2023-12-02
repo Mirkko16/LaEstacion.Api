@@ -5,6 +5,7 @@ using LaEstacion.DTO.Request.Marca;
 using LaEstacion.DTO.Request.Producto;
 using LaEstacion.DTO.Request.Proveedor;
 using LaEstacion.DTO.Request.Rubro;
+using LaEstacion.DTO.Request.Unidad;
 using LaEstacion.DTO.Response;
 using LaEstacion.Persistence.Common.Model;
 
@@ -43,6 +44,11 @@ namespace LaEstacion.AutoMapper
             CreateMap<RubroModel, RubroResponse>().ReverseMap();
             CreateMap<RubroModel, RubroUpdateRequest>().ReverseMap();
             CreateMap<RubroModel, RubroRequest>().ReverseMap();
+
+            //Unidades
+            CreateMap<UnidadModel, UnidadResponse>().ReverseMap();
+            CreateMap<UnidadModel, UnidadUpdateRequest>().ReverseMap();
+            CreateMap<UnidadModel, UnidadRequest>().ReverseMap();
         }
     }
 }

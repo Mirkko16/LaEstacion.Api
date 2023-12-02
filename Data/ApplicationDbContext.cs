@@ -13,6 +13,8 @@ namespace LaEstacion.Data
         public DbSet<MarcaModel> Marcas { get; set; }
         public DbSet<FamiliaModel> Familias { get; set; }
         public DbSet<RubroModel> Rubros { get; set; }
+        public DbSet<ProductoVendidoModel> ProductoVendido { get; set; }
+        public DbSet<UnidadModel> Unidades { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options): base(options) {}

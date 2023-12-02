@@ -7,7 +7,8 @@ namespace LaEstacion.Repository.Ventas
     {
         Task<List<VentaModel>> GetAllVentas();
         Task<VentaModel?> GetVentaById(int ventaId);
-        Task<VentaModel> AddVenta(VentaRequest producto);
+        Task<VentaModel> AddVenta(VentaRequest venta);
+
         // Task<VentaModel> UpdateVenta(ProductoUpdateRequest producto, ProductoModel existingProducto);
         Task RemoveVenta(int idVenta);
     }
