@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaEstacion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231129230436_firstCommit")]
-    partial class firstCommit
+    [Migration("20231202235102_correcciontablas")]
+    partial class correcciontablas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -170,6 +170,9 @@ namespace LaEstacion.Migrations
                     b.Property<decimal>("Stock")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("UnidadId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FamiliaId");
@@ -180,7 +183,41 @@ namespace LaEstacion.Migrations
 
                     b.HasIndex("RubroId");
 
+                    b.HasIndex("UnidadId");
+
                     b.ToTable("Productos");
+                });
+
+            modelBuilder.Entity("LaEstacion.Persistence.Common.Model.ProductoVendidoModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Cantidad")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ItemCantidad")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VentaModelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductoId");
+
+                    b.HasIndex("VentaModelId");
+
+                    b.ToTable("ProductosVendidos");
                 });
 
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.ProveedorModel", b =>
@@ -248,6 +285,26 @@ namespace LaEstacion.Migrations
                     b.ToTable("Rubros");
                 });
 
+            modelBuilder.Entity("LaEstacion.Persistence.Common.Model.UnidadModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Eliminada")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UnidadMedida")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Unidades");
+                });
+
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.UsuarioModel", b =>
                 {
                     b.Property<int>("Id")
@@ -306,8 +363,21 @@ namespace LaEstacion.Migrations
                     b.Property<DateTime>("FechaVenta")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ItemCantidad")
+                        .HasColumnType("int");
+
                     b.Property<int>("NumVenta")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PuntoVenta")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TipoComprobante")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TipoPago")
                         .IsRequired()
@@ -352,6 +422,12 @@ namespace LaEstacion.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LaEstacion.Persistence.Common.Model.UnidadModel", "Unidad")
+                        .WithMany()
+                        .HasForeignKey("UnidadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Familia");
 
                     b.Navigation("Marca");
@@ -359,6 +435,25 @@ namespace LaEstacion.Migrations
                     b.Navigation("Proveedor");
 
                     b.Navigation("Rubro");
+
+                    b.Navigation("Unidad");
+                });
+
+            modelBuilder.Entity("LaEstacion.Persistence.Common.Model.ProductoVendidoModel", b =>
+                {
+                    b.HasOne("LaEstacion.Persistence.Common.Model.ProductoModel", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LaEstacion.Persistence.Common.Model.VentaModel", null)
+                        .WithMany("Productos")
+                        .HasForeignKey("VentaModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.VentaModel", b =>
@@ -370,6 +465,11 @@ namespace LaEstacion.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("LaEstacion.Persistence.Common.Model.VentaModel", b =>
+                {
+                    b.Navigation("Productos");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using LaEstacion.Repository.Marcas;
 using LaEstacion.Repository.Familias;
 using LaEstacion.Repository.Rubros;
+using LaEstacion.Repository.Unidades;
+using LaEstacion.Repository.Ventas;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +27,9 @@ builder.Services.AddScoped<IProveedorRepository, ProveedoresRepository>();
 builder.Services.AddScoped<IMarcaRepository, MarcasRepository>();
 builder.Services.AddScoped<IFamiliaRepository, FamiliasRepository>();
 builder.Services.AddScoped<IRubroRepository, RubrosRepository>();
-
+builder.Services.AddScoped<IUnidadRepository, UnidadesRepository>();
+builder.Services.AddScoped<IProductoVendidoRepository, ProductosVendidosRepository>();
+builder.Services.AddScoped<IVentaRepository, VentasRepository>();
 
 
 var sqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");

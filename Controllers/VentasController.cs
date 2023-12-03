@@ -4,6 +4,7 @@ using LaEstacion.DTO.Response;
 using LaEstacion.Persistence.Common.Model;
 using LaEstacion.Repository.Ventas;
 using LaEstacion.DTO.Request.Venta;
+using LaEstacion.DTO.Request.Unidad;
 
 namespace LaEstacion.Controllers
 {
@@ -66,7 +67,9 @@ namespace LaEstacion.Controllers
             {
                 var ventaToAdd = _mapper.Map<VentaModel>(ventaRequest);
 
-                var response = "aaa";
+                await _repository.AddVenta(ventaToAdd);
+
+                var response = _mapper.Map<VentaModel>(ventaRequest);
 
                 return StatusCode(StatusCodes.Status201Created, response);
             }
@@ -76,24 +79,7 @@ namespace LaEstacion.Controllers
             }
         }
 
-        [HttpDelete("{ventaId}")]
-        public async Task<ActionResult> DeleteVentaAsync(int ventaId)
-        {
-            try
-            {
-                var ventaToDelete = await _repository.GetVentaById(ventaId);
-
-                if (ventaToDelete is null) return NotFound();
-
-                await _repository.RemoveVenta(ventaId);
-
-                return StatusCode(StatusCodes.Status200OK);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
-        }
+       
 
         [HttpPut]
         public async Task<ActionResult> UpdateVentaAsync(VentaUpdateRequest ventaUpdate)

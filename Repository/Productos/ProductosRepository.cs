@@ -6,6 +6,7 @@ using LaEstacion.Repository.Familias;
 using LaEstacion.Repository.Marcas;
 using LaEstacion.Repository.Proveedores;
 using LaEstacion.Repository.Rubros;
+using LaEstacion.Repository.Unidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace LaEstacion.Repository.Productos
@@ -18,10 +19,11 @@ namespace LaEstacion.Repository.Productos
         private readonly IFamiliaRepository _familiasRepository;
         private readonly IRubroRepository _rubrosRepository;
         private readonly IProveedorRepository _proveedoresRepository;
+        private readonly IUnidadRepository _unidadesRepository;
 
         public ProductosRepository(ApplicationDbContext context, IMapper mapper, IMarcaRepository marcasRepository, 
             IFamiliaRepository familiasRepository, IRubroRepository rubrosRepository, 
-            IProveedorRepository proveedoresRepository)
+            IProveedorRepository proveedoresRepository, IUnidadRepository unidadesRepository)
         {
             _context = context;
             _mapper = mapper;
@@ -29,6 +31,7 @@ namespace LaEstacion.Repository.Productos
             _familiasRepository = familiasRepository;
             _rubrosRepository = rubrosRepository;
             _proveedoresRepository = proveedoresRepository;
+            _unidadesRepository = unidadesRepository;
         }
 
 
@@ -38,36 +41,44 @@ namespace LaEstacion.Repository.Productos
             {
                 var productoToAdd = _mapper.Map<ProductoModel>(productoRequest);
 
-                if (productoRequest.MarcaId != 0)
+                if (productoRequest.Marca.Id != 0)
                 {
-                    var marca = await _marcasRepository.GetMarcaById(productoRequest.MarcaId);
+                    var marca = await _marcasRepository.GetMarcaById(productoRequest.Marca.Id);
                     if (marca != null)
                     {
                         productoToAdd.Marca = marca;
                     }
                 }
-                if (productoRequest.FamiliaId != 0)
+                if (productoRequest.Familia.Id != 0)
                 {
-                    var familia = await _familiasRepository.GetFamiliaById(productoRequest.FamiliaId);
+                    var familia = await _familiasRepository.GetFamiliaById(productoRequest.Familia.Id);
                     if (familia != null)
                     {
                         productoToAdd.Familia = familia;
                     }
                 }
-                if (productoRequest.RubroId > 0)
+                if (productoRequest.Rubro.Id > 0)
                 {
-                    var rubro = await _rubrosRepository.GetRubroById(productoRequest.RubroId);
+                    var rubro = await _rubrosRepository.GetRubroById(productoRequest.Rubro.Id);
                     if (rubro != null)
                     {
                         productoToAdd.Rubro = rubro;
                     }
                 }
-                if (productoRequest.ProveedorId > 0)
+                if (productoRequest.Proveedor.Id > 0)
                 {
-                    var proveedor = await _proveedoresRepository.GetProveedorById(productoRequest.ProveedorId);
+                    var proveedor = await _proveedoresRepository.GetProveedorById(productoRequest.Proveedor.Id);
                     if (proveedor != null)
                     {
                         productoToAdd.Proveedor = proveedor;
+                    }
+                }
+                if (productoRequest.Unidad.Id > 0)
+                {
+                    var unidad = await _unidadesRepository.GetUnidadById(productoRequest.Unidad.Id);
+                    if (unidad  != null)
+                    {
+                        productoToAdd.Unidad = unidad;
                     }
                 }
                 if (productoRequest.Rentabilidad != 0) 
@@ -138,33 +149,33 @@ namespace LaEstacion.Repository.Productos
         {
             try
             {
-                if (productoUpdate.MarcaId > 0)
+                if (productoUpdate.Marca.Id > 0)
                 {
-                    var marca = await _marcasRepository.GetMarcaById(productoUpdate.MarcaId);
+                    var marca = await _marcasRepository.GetMarcaById(productoUpdate.Marca.Id);
                     if (marca != null)
                     {
                         productoToUpdate.Marca = marca;
                     }
                 }
-                if (productoUpdate.FamiliaId > 0)
+                if (productoUpdate.Familia.Id > 0)
                 {
-                    var familia = await _familiasRepository.GetFamiliaById(productoUpdate.FamiliaId);
+                    var familia = await _familiasRepository.GetFamiliaById(productoUpdate.Familia.Id);
                     if (familia != null)
                     {
                         productoToUpdate.Familia = familia;
                     }
                 }
-                if (productoUpdate.RubroId > 0)
+                if (productoUpdate.Rubro.Id > 0)
                 {
-                    var rubro = await _rubrosRepository.GetRubroById(productoUpdate.RubroId);
+                    var rubro = await _rubrosRepository.GetRubroById(productoUpdate.Rubro.Id);
                     if (rubro != null)
                     {
                         productoToUpdate.Rubro = rubro;
                     }
                 }
-                if (productoUpdate.ProveedorId > 0)
+                if (productoUpdate.Proveedor.Id > 0)
                 {
-                    var proveedor = await _proveedoresRepository.GetProveedorById(productoUpdate.ProveedorId);
+                    var proveedor = await _proveedoresRepository.GetProveedorById(productoUpdate.Proveedor.Id);
                     if (proveedor != null)
                     {
                         productoToUpdate.Proveedor = proveedor;

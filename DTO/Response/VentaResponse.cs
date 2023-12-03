@@ -12,10 +12,7 @@ namespace LaEstacion.DTO.Response
         public string TipoPago { get; set; }
         public string TipoComprobante { get; set; }
         public int Descuento { get; set; }
-        public decimal gananciaCuentasCorriente { get; set; }
-        public int ProductoCantidad { get; set; }
-        public int ItemCantidad { get; set; }
-        public decimal PrecioUnitario { get; set; }
+        public decimal GananciaCuentasCorriente { get; set; }        
         public decimal Total { get; set; }
     }
 }

@@ -1,28 +1,94 @@
-﻿using LaEstacion.DTO.Request.Venta;
+﻿using LaEstacion.Data;
+using LaEstacion.DTO.Request.Venta;
 using LaEstacion.Persistence.Common.Model;
+using LaEstacion.Repository.Productos;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaEstacion.Repository.Ventas
 {
     public class VentasRepository : IVentaRepository
     {
-        public Task<VentaModel> AddVenta(VentaRequest producto)
+        private readonly ApplicationDbContext _context;
+        private readonly IProductoVendidoRepository _productsVendidosRepository;
+
+        public VentasRepository(ApplicationDbContext context, IProductoVendidoRepository productsVendidosRepository)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _productsVendidosRepository = productsVendidosRepository;
         }
 
-        public Task<List<VentaModel>> GetAllVentas()
+        public async Task<VentaModel> AddVenta(VentaModel venta)
         {
-            throw new NotImplementedException();
+            using var transaction = _context.Database.BeginTransaction();
+
+            try
+            {
+                if (venta.Productos.Any())
+                {
+                    foreach (var producto in venta.Productos)
+                    {
+                        producto.VentaId = venta.Id;
+                        producto.Producto = _context.Productos.Find(producto.Producto.Id);
+
+                        // Crear un objeto ProductoVendidoModel antes de asignarlo
+                        var productoVendido = new ProductoVendidoModel
+                        {
+                            Producto = producto.Producto,
+                            Cantidad = producto.Cantidad,
+                            ItemCantidad = producto.ItemCantidad,
+                            PrecioUnitario = producto.PrecioUnitario
+                        };
+
+                        // Asignar el objeto ProductoVendidoModel a la propiedad correspondiente
+                        venta.Productos.Add(productoVendido);
+
+                        await _productsVendidosRepository.AddProductoVendido(productoVendido);
+                    }
+                }
+
+                _context.Ventas.Add(venta);
+                await _context.SaveChangesAsync();
+
+                transaction.Commit();
+
+                return venta;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception("Fallo al insertar venta", ex);
+            }
         }
 
-        public Task<VentaModel?> GetVentaById(int ventaId)
+
+
+        public async Task<List<VentaModel>> GetAllVentas()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var ventas = await _context.Ventas.ToListAsync();
+                return ventas;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("fallo al obtener todas las ventas", ex);
+            }
         }
 
-        public Task RemoveVenta(int idVenta)
+        public async Task<VentaModel?> GetVentaById(int ventaId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var venta = await _context.Ventas.FirstOrDefaultAsync(venta => venta.Id == ventaId);
+                return venta;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Venta no encontrada", ex);
+            }
         }
+
     }
 }

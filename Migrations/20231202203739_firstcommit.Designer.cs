@@ -4,6 +4,7 @@ using LaEstacion.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaEstacion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231202203739_firstcommit")]
+    partial class firstcommit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,9 +206,6 @@ namespace LaEstacion.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VentaId")
                         .HasColumnType("int");
 
                     b.Property<int?>("VentaModelId")
@@ -449,7 +448,7 @@ namespace LaEstacion.Migrations
                         .IsRequired();
 
                     b.HasOne("LaEstacion.Persistence.Common.Model.VentaModel", null)
-                        .WithMany("Productos")
+                        .WithMany("Producto")
                         .HasForeignKey("VentaModelId");
 
                     b.Navigation("Producto");
@@ -468,7 +467,7 @@ namespace LaEstacion.Migrations
 
             modelBuilder.Entity("LaEstacion.Persistence.Common.Model.VentaModel", b =>
                 {
-                    b.Navigation("Productos");
+                    b.Navigation("Producto");
                 });
 #pragma warning restore 612, 618
         }

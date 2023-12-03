@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LaEstacion.Migrations
 {
-    public partial class firstCommit : Migration
+    public partial class firstcommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -99,6 +99,20 @@ namespace LaEstacion.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Unidades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UnidadMedida = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Eliminada = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Unidades", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
                 {
@@ -124,11 +138,15 @@ namespace LaEstacion.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NumVenta = table.Column<int>(type: "int", nullable: false),
+                    PuntoVenta = table.Column<int>(type: "int", nullable: false),
                     ClienteId = table.Column<int>(type: "int", nullable: false),
                     FechaVenta = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TipoPago = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TipoComprobante = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descuento = table.Column<int>(type: "int", nullable: false),
                     gananciaCuentasCorriente = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ItemCantidad = table.Column<int>(type: "int", nullable: false),
+                    PrecioUnitario = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -153,6 +171,7 @@ namespace LaEstacion.Migrations
                     MarcaId = table.Column<int>(type: "int", nullable: false),
                     FamiliaId = table.Column<int>(type: "int", nullable: false),
                     RubroId = table.Column<int>(type: "int", nullable: false),
+                    UnidadId = table.Column<int>(type: "int", nullable: false),
                     ProveedorId = table.Column<int>(type: "int", nullable: false),
                     Costo = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Rentabilidad = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -187,6 +206,40 @@ namespace LaEstacion.Migrations
                         principalTable: "Rubros",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Productos_Unidades_UnidadId",
+                        column: x => x.UnidadId,
+                        principalTable: "Unidades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductosVendidos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductoId = table.Column<int>(type: "int", nullable: false),
+                    Cantidad = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ItemCantidad = table.Column<int>(type: "int", nullable: false),
+                    PrecioUnitario = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    VentaModelId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductosVendidos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductosVendidos_Productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Productos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductosVendidos_Ventas_VentaModelId",
+                        column: x => x.VentaModelId,
+                        principalTable: "Ventas",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -210,6 +263,21 @@ namespace LaEstacion.Migrations
                 column: "RubroId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Productos_UnidadId",
+                table: "Productos",
+                column: "UnidadId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductosVendidos_ProductoId",
+                table: "ProductosVendidos",
+                column: "ProductoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductosVendidos_VentaModelId",
+                table: "ProductosVendidos",
+                column: "VentaModelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ventas_ClienteId",
                 table: "Ventas",
                 column: "ClienteId");
@@ -218,10 +286,13 @@ namespace LaEstacion.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Productos");
+                name: "ProductosVendidos");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Ventas");
@@ -237,6 +308,9 @@ namespace LaEstacion.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rubros");
+
+            migrationBuilder.DropTable(
+                name: "Unidades");
 
             migrationBuilder.DropTable(
                 name: "Clientes");
