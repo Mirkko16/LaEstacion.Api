@@ -66,7 +66,10 @@ namespace LaEstacion.Repository.Ventas
         {
             try
             {
-                var ventas = await _context.Ventas.ToListAsync();
+                var ventas = await _context.Ventas
+                    .Include(v => v.Cliente)
+                    .Include(v => v.Productos)
+                    .ToListAsync();
                 return ventas;
             }
             catch (Exception ex)

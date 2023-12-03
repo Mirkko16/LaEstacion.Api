@@ -102,7 +102,7 @@ namespace LaEstacion.Controllers
         {
             try
             {
-                {
+                
                     var existingProducto = await _repository.GetProductoById(productoUpdate.Id);
                     if (existingProducto is null) return StatusCode(StatusCodes.Status404NotFound);
                     var productoToUpdate = _mapper.Map<ProductoModel>(productoUpdate); 
@@ -110,7 +110,7 @@ namespace LaEstacion.Controllers
                     var response = _mapper.Map<ProductoResponse>(await _repository.UpdateProducto(productoUpdate, existingProducto));
 
                     return StatusCode(StatusCodes.Status200OK, response);
-                }
+                
             }
             catch (Exception ex)
             {

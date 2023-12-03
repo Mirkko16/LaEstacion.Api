@@ -23,7 +23,7 @@ namespace LaEstacion.Repository.Unidades
             }
             catch (Exception ex)
             {
-                throw new Exception("Fallo al insertar rubro", ex);
+                throw new Exception("Fallo al insertar unidad", ex);
             }
         }
 
@@ -75,7 +75,7 @@ namespace LaEstacion.Repository.Unidades
             try
             {
 
-                existingUnidad.UnidadMedida = unidad.UnidadMedida;
+                existingUnidad.Unidad = unidad.Unidad;
                 existingUnidad.Eliminada = unidad.Eliminada;
 
                 await _context.SaveChangesAsync();

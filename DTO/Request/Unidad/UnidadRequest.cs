@@ -2,7 +2,7 @@
 {
     public class UnidadRequest
     {
-        public string UnidadMedida { get; set; }
+        public string Unidad { get; set; }
 
         public bool Eliminada { get; set; }
     }
