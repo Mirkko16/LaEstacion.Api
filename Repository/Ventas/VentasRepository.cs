@@ -34,8 +34,7 @@ namespace LaEstacion.Repository.Ventas
                         var productoVendido = new ProductoVendidoModel
                         {
                             Producto = producto.Producto,
-                            Cantidad = producto.Cantidad,
-                            ItemCantidad = producto.ItemCantidad,
+                            Cantidad = producto.Cantidad,                            
                             PrecioUnitario = producto.PrecioUnitario
                         };
 
