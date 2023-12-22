@@ -62,6 +62,25 @@ namespace LaEstacion.Controllers
             }
         }
 
+        [HttpGet("barcode/{codBarra}")]
+        public async Task<ActionResult> GetProductobyBarCodeAsync(string codBarra)
+        {
+            try
+            {
+                var producto = await _repository.getProductobyBarCode(codBarra);
+
+                if (producto is null) return StatusCode(StatusCodes.Status404NotFound);
+
+                var response = _mapper.Map<ProductoResponse>(producto);
+
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> AddProductoAsync(ProductoRequest productoRequest)

@@ -138,6 +138,26 @@ namespace LaEstacion.Repository.Productos
             }
         }
 
+        public async Task<ProductoModel?> getProductobyBarCode(string codBarra)
+        {
+            try
+            {
+                var producto = await _context.Productos
+                    .Include(x => x.Marca)
+                    .Include(x => x.Familia)
+                    .Include(x => x.Rubro)
+                    .Include(x => x.Unidad)
+                    .Include(x => x.Proveedor)
+                    .FirstAsync(producto => producto.CodBarra == codBarra);
+                return producto;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Producto no encontrado", ex);
+            }
+        }
+
         public async Task RemoveProducto(int productoId)
         {
             try
