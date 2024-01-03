@@ -2,6 +2,7 @@
 using LaEstacion.DTO.Request.Venta;
 using LaEstacion.Persistence.Common.Model;
 using LaEstacion.Repository.Productos;
+using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace LaEstacion.Repository.Ventas
@@ -23,27 +24,7 @@ namespace LaEstacion.Repository.Ventas
 
             try
             {
-                if (venta.Productos.Any())
-                {
-                    foreach (var producto in venta.Productos)
-                    {
-                        producto.VentaId = venta.Id;
-                        producto.Producto = _context.Productos.Find(producto.Producto.Id);
-
-                        // Crear un objeto ProductoVendidoModel antes de asignarlo
-                        var productoVendido = new ProductoVendidoModel
-                        {
-                            Producto = producto.Producto,
-                            Cantidad = producto.Cantidad,                            
-                            PrecioUnitario = producto.PrecioUnitario
-                        };
-
-                        // Asignar el objeto ProductoVendidoModel a la propiedad correspondiente
-                        venta.Productos.Add(productoVendido);
-
-                        await _productsVendidosRepository.AddProductoVendido(productoVendido);
-                    }
-                }
+                await AddProductosToVenta(venta);
 
                 _context.Ventas.Add(venta);
                 await _context.SaveChangesAsync();
@@ -58,6 +39,41 @@ namespace LaEstacion.Repository.Ventas
                 throw new Exception("Fallo al insertar venta", ex);
             }
         }
+
+        private async Task AddProductosToVenta(VentaModel venta)
+        {
+            if (venta.Productos.Any())
+            {
+                foreach (var producto in venta.Productos)
+                {
+                    producto.VentaId = venta.Id;
+                    
+                    var productoEnBaseDeDatos = _context.Productos.Find(producto.Producto.Id);
+                    if (productoEnBaseDeDatos == null)
+                    {
+                        throw new Exception($"El producto con ID {producto.Id} no existe");
+                    }
+
+                    if (productoEnBaseDeDatos.Stock >= producto.Cantidad)
+                    {
+                        productoEnBaseDeDatos.Stock -= producto.Cantidad;
+                        var productoVendido = new ProductoVendidoModel
+                        {
+                            Producto = productoEnBaseDeDatos,
+                            Cantidad = producto.Cantidad,
+                            PrecioUnitario = producto.PrecioUnitario
+                        };
+                        venta.Productos.Add(productoVendido);
+                        await _productsVendidosRepository.AddProductoVendido(productoVendido);
+                    }
+                    else
+                    {
+                        throw new Exception($"No hay suficiente stock para el producto con ID {producto.Id}.");
+                    }                 
+                }
+            }
+        }
+
 
 
 

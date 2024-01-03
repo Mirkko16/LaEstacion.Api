@@ -234,5 +234,17 @@ namespace LaEstacion.Repository.Productos
                 throw new Exception("Fallo al actualizar el producto", ex);
             }
         }
+        public async Task VerificarStockMinimo()
+        {
+            
+            var productos = await _context.Productos.Where(p => p.Stock <= p.StockMinimo).ToListAsync();
+            foreach (var producto in productos)
+            {
+                // Realiza las acciones asincrónicas necesarias para productos bajo el stock mínimo
+                // (puedes enviar notificaciones, registrar eventos, etc. de manera asincrónica)
+                // ...
+            }
+        }
+
     }
 }

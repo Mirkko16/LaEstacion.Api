@@ -11,5 +11,6 @@ namespace LaEstacion.Repository.Productos
         Task<ProductoModel> AddProducto(ProductoRequest producto);
         Task<ProductoModel> UpdateProducto(ProductoUpdateRequest producto, ProductoModel existingProducto);
         Task RemoveProducto(int producto);
+        Task VerificarStockMinimo();
     }
 }

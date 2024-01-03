@@ -1,36 +1,14 @@
+using Hangfire;
 using LaEstacion.Data;
-using LaEstacion.AutoMapper;
-using LaEstacion.Repository.Clientes;
-using LaEstacion.Repository.Proveedores;
 using LaEstacion.Repository.Productos;
+using LaEstacion.Services.Pdf;
 using Microsoft.EntityFrameworkCore;
-using LaEstacion.Repository.Marcas;
-using LaEstacion.Repository.Familias;
-using LaEstacion.Repository.Rubros;
-using LaEstacion.Repository.Unidades;
-using LaEstacion.Repository.Ventas;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddAutoMapper(typeof(CustomProfile));
-
-builder.Services.AddScoped<IClienteRepository, ClientesRepository>();
-builder.Services.AddScoped<IProductoRepository, ProductosRepository>();
-builder.Services.AddScoped<IProveedorRepository, ProveedoresRepository>();
-builder.Services.AddScoped<IMarcaRepository, MarcasRepository>();
-builder.Services.AddScoped<IFamiliaRepository, FamiliasRepository>();
-builder.Services.AddScoped<IRubroRepository, RubrosRepository>();
-builder.Services.AddScoped<IUnidadRepository, UnidadesRepository>();
-builder.Services.AddScoped<IProductoVendidoRepository, ProductosVendidosRepository>();
-builder.Services.AddScoped<IVentaRepository, VentasRepository>();
-
+// ... (otros servicios)
 
 var sqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -39,23 +17,26 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     options.UseSqlServer(sqlConnectionString);
 });
 
-var app = builder.Build();
-app.UseCors(policy => policy.AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials()
-                            .WithOrigins("http://localhost:5173"));
+builder.Services.AddHangfire(config => config.UseSqlServerStorage(sqlConnectionString));
 
-// Configure the HTTP request pipeline.
+builder.Services.AddScoped<IPdfService, PdfService>();
+
+// Agrega tu servicio de repositorio u otros servicios necesarios
+builder.Services.AddScoped<IProductoRepository, ProductosRepository>();
+
+var app = builder.Build();
+
+// ... (configuración CORS y otros middleware)
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // ... (middleware de desarrollo)
 }
 
-app.UseHttpsRedirection();
+// Inicia Hangfire en el inicio de la aplicación
+GlobalConfiguration.Configuration.UseSqlServerStorage(sqlConnectionString);
 
-app.UseAuthorization();
-
-app.MapControllers();
+// Configura la tarea programada para ejecutarse al inicio
+BackgroundJob.Enqueue<IProductoRepository>(repo => repo.VerificarStockMinimo());
 
 app.Run();
