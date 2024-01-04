@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\LaEstacion\\LaEstacion.Api\\LaEstacion.csproj": {}
+    "C:\\Users\\maxi\\Desktop\\Freelance\\LaEstacion.Api\\LaEstacion.csproj": {}
   },
   "projects": {
-    "E:\\LaEstacion\\LaEstacion.Api\\LaEstacion.csproj": {
+    "C:\\Users\\maxi\\Desktop\\Freelance\\LaEstacion.Api\\LaEstacion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\LaEstacion\\LaEstacion.Api\\LaEstacion.csproj",
+        "projectUniqueName": "C:\\Users\\maxi\\Desktop\\Freelance\\LaEstacion.Api\\LaEstacion.csproj",
         "projectName": "LaEstacion",
-        "projectPath": "E:\\LaEstacion\\LaEstacion.Api\\LaEstacion.csproj",
-        "packagesPath": "C:\\Users\\Mirko-Pc\\.nuget\\packages\\",
-        "outputPath": "E:\\LaEstacion\\LaEstacion.Api\\obj\\",
+        "projectPath": "C:\\Users\\maxi\\Desktop\\Freelance\\LaEstacion.Api\\LaEstacion.csproj",
+        "packagesPath": "C:\\Users\\maxi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\maxi\\Desktop\\Freelance\\LaEstacion.Api\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mirko-Pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\maxi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -77,6 +73,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "itext": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             }
           },
           "imports": [
@@ -98,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

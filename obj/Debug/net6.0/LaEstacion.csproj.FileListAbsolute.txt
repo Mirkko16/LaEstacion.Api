@@ -1,0 +1,7 @@
+C:\Users\maxi\Desktop\Freelance\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.csproj.AssemblyReference.cache
+C:\Users\maxi\Desktop\Freelance\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\maxi\Desktop\Freelance\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.AssemblyInfoInputs.cache
+C:\Users\maxi\Desktop\Freelance\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.AssemblyInfo.cs
+C:\Users\maxi\Desktop\Freelance\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.csproj.CoreCompileInputs.cache
+C:\Users\maxi\Desktop\Freelance\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\maxi\Desktop\Freelance\LaEstacion.Api\obj\Debug\net6.0\LaEstacion.MvcApplicationPartsAssemblyInfo.cache

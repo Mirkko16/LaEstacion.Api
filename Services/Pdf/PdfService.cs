@@ -4,6 +4,7 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using LaEstacion.Persistence.Common.Model;
+using Document = iText.Layout.Document;
 
 namespace LaEstacion.Services.Pdf
 {
