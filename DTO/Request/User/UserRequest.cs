@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace LaEstacion.Persistence.Common.Model
+﻿namespace LaEstacion.DTO.Request.User
 {
-    public class UsuarioModel :BaseModel
+    public class UserRequest
     {
+        public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Apellido { get; set; }        
+        public string Apellido { get; set; }
         public string UserLogIn { get; set; }
         public string Password { get; set; }
         public string Correo { get; set; }
