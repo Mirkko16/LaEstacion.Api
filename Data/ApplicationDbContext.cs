@@ -5,7 +5,7 @@ namespace LaEstacion.Data
 {
     public class ApplicationDbContext :DbContext
     {
-        public DbSet<UsuarioModel> Usuarios { get; set; }
+        public DbSet<UserModel> Usuarios { get; set; }
         public DbSet<ClienteModel> Clientes { get; set; }
         public DbSet<VentaModel> Ventas { get; set; }
         public DbSet<ProveedorModel> Proveedores { get; set; }
