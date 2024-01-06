@@ -30,5 +30,10 @@ namespace LaEstacion.Services.Pdf
                 return memoryStream.ToArray();
             }
         }
+
+        public object GenerarPdf(Task<List<ProductoModel>> productosBajoStock)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

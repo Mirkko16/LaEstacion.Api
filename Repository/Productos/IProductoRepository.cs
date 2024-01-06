@@ -10,7 +10,7 @@ namespace LaEstacion.Repository.Productos
         Task<ProductoModel?> getProductobyBarCode(string codigoBarra);
         Task<ProductoModel> AddProducto(ProductoRequest producto);
         Task<ProductoModel> UpdateProducto(ProductoUpdateRequest producto, ProductoModel existingProducto);
+        Task<List<ProductoModel>> ObtenerProductosBajoStockMinimo();
         Task RemoveProducto(int producto);
-        Task VerificarStockMinimo();
     }
 }

@@ -21,8 +21,8 @@ namespace LaEstacion.Repository.Productos
         private readonly IProveedorRepository _proveedoresRepository;
         private readonly IUnidadRepository _unidadesRepository;
 
-        public ProductosRepository(ApplicationDbContext context, IMapper mapper, IMarcaRepository marcasRepository, 
-            IFamiliaRepository familiasRepository, IRubroRepository rubrosRepository, 
+        public ProductosRepository(ApplicationDbContext context, IMapper mapper, IMarcaRepository marcasRepository,
+            IFamiliaRepository familiasRepository, IRubroRepository rubrosRepository,
             IProveedorRepository proveedoresRepository, IUnidadRepository unidadesRepository)
         {
             _context = context;
@@ -76,19 +76,19 @@ namespace LaEstacion.Repository.Productos
                 if (productoRequest.UnidadId > 0)
                 {
                     var unidad = await _unidadesRepository.GetUnidadById(productoRequest.UnidadId);
-                    if (unidad  != null)
+                    if (unidad != null)
                     {
                         productoToAdd.Unidad = unidad;
                     }
                 }
-                if (productoRequest.Rentabilidad != 0) 
+                if (productoRequest.Rentabilidad != 0)
                 {
                     productoToAdd.PrecioVenta = ((productoToAdd.Costo * productoToAdd.Rentabilidad) / 100) + (productoToAdd.Costo);
                 }
 
                 _context.Productos.Add(productoToAdd);
                 await _context.SaveChangesAsync();
-                
+
                 return productoToAdd;
             }
             catch (Exception ex)
@@ -218,13 +218,14 @@ namespace LaEstacion.Repository.Productos
                 }
 
                 productoToUpdate.Nombre = productoUpdate.Nombre;
-                productoToUpdate.CodBarra = productoUpdate.CodBarra;                
+                productoToUpdate.CodBarra = productoUpdate.CodBarra;
                 productoToUpdate.Costo = productoUpdate.Costo;
                 productoToUpdate.Rentabilidad = productoUpdate.Rentabilidad;
                 productoToUpdate.PrecioVenta = ((productoUpdate.Costo * productoUpdate.Rentabilidad) / 100) + (productoToUpdate.Costo);
                 productoToUpdate.Stock = productoUpdate.Stock;
+                productoToUpdate.StockMinimo = productoUpdate.StockMinimo;
                 productoToUpdate.Eliminado = productoUpdate.Eliminado;
-                
+
 
                 await _context.SaveChangesAsync();
                 return productoToUpdate;
@@ -234,17 +235,14 @@ namespace LaEstacion.Repository.Productos
                 throw new Exception("Fallo al actualizar el producto", ex);
             }
         }
-        public async Task VerificarStockMinimo()
-        {
-            
-            var productos = await _context.Productos.Where(p => p.Stock <= p.StockMinimo).ToListAsync();
-            foreach (var producto in productos)
-            {
-                // Realiza las acciones asincrónicas necesarias para productos bajo el stock mínimo
-                // (puedes enviar notificaciones, registrar eventos, etc. de manera asincrónica)
-                // ...
-            }
-        }
 
+        public async Task<List<ProductoModel>> ObtenerProductosBajoStockMinimo()
+        {
+            var productosBajoStockMinimo = await _context.Productos
+                .Where(p => p.Stock <= p.StockMinimo && !p.Eliminado)
+                .ToListAsync();
+
+            return productosBajoStockMinimo;
+        }
     }
 }
