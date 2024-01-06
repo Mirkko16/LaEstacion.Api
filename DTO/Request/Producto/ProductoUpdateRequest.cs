@@ -16,6 +16,7 @@ namespace LaEstacion.DTO.Request.Producto
         public decimal Rentabilidad { get; set; }
         public decimal PrecioVenta { get; set; }
         public decimal Stock { get; set; }
+        public decimal StockMinimo { get; set; }
         public bool Eliminado { get; set; }
     }
 }
