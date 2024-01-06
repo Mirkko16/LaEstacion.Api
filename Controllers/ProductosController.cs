@@ -17,12 +17,12 @@ namespace LaEstacion.Controllers
     public class ProductosController : ControllerBase
     {
         private readonly IProductoRepository _repository;
-        private readonly IMapper _mapper;        
+        private readonly IMapper _mapper;
 
         public ProductosController(IProductoRepository productorepository, IMapper mapper)
         {
-            _repository = productorepository;            
-            _mapper = mapper;            
+            _repository = productorepository;
+            _mapper = mapper;
         }
 
 
@@ -121,15 +121,15 @@ namespace LaEstacion.Controllers
         {
             try
             {
-                
-                    var existingProducto = await _repository.GetProductoById(productoUpdate.Id);
-                    if (existingProducto is null) return StatusCode(StatusCodes.Status404NotFound);
-                    var productoToUpdate = _mapper.Map<ProductoModel>(productoUpdate); 
 
-                    var response = _mapper.Map<ProductoResponse>(await _repository.UpdateProducto(productoUpdate, existingProducto));
+                var existingProducto = await _repository.GetProductoById(productoUpdate.Id);
+                if (existingProducto is null) return StatusCode(StatusCodes.Status404NotFound);
+                var productoToUpdate = _mapper.Map<ProductoModel>(productoUpdate);
 
-                    return StatusCode(StatusCodes.Status200OK, response);
-                
+                var response = _mapper.Map<ProductoResponse>(await _repository.UpdateProducto(productoUpdate, existingProducto));
+
+                return StatusCode(StatusCodes.Status200OK, response);
+
             }
             catch (Exception ex)
             {
