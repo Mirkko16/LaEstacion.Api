@@ -6,11 +6,11 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace LaEstacion.Repository.Usuarios
 {
-    public class UsuariosRepository : IUsuarioRepository
+    public class UsersRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public UsuariosRepository(ApplicationDbContext context)
+        public UsersRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -19,13 +19,32 @@ namespace LaEstacion.Repository.Usuarios
         {
             try
             {
+                // Genera el hash de la contraseña antes de almacenarla en la base de datos
+                usuario.PasswordHash = GenerarPasswordHash(usuario.Password);
+
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
                 return usuario;
             }
             catch (Exception ex)
             {
-                throw new Exception("Fallo al insertar unidad", ex);
+                throw new Exception("Fallo al insertar usuario", ex);
+            }
+        }
+
+        // Agrega un método para generar el hash de la contraseña
+        private string GenerarPasswordHash(string password)
+        {
+            try
+            {
+                // Utiliza BCrypt.Net para generar el hash de la contraseña
+                return BCryptNet.HashPassword(password);
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier excepción que pueda ocurrir durante la generación del hash
+                Console.WriteLine($"Error al generar el hash de la contraseña: {ex.Message}");
+                throw;
             }
         }
 
