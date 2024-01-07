@@ -9,6 +9,6 @@
         public string Password { get; set; }
         public string Correo { get; set; }
         public string Rol { get; set; }
-        public char Activo { get; set; }
+        public bool Activo { get; set; }
     }
 }
