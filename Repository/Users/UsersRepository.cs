@@ -32,22 +32,6 @@ namespace LaEstacion.Repository.Usuarios
             }
         }
 
-        // Agrega un método para generar el hash de la contraseña
-        private string GenerarPasswordHash(string password)
-        {
-            try
-            {
-                // Utiliza BCrypt.Net para generar el hash de la contraseña
-                return BCryptNet.HashPassword(password);
-            }
-            catch (Exception ex)
-            {
-                // Maneja cualquier excepción que pueda ocurrir durante la generación del hash
-                Console.WriteLine($"Error al generar el hash de la contraseña: {ex.Message}");
-                throw;
-            }
-        }
-
 
         public async Task<List<UserModel>> GetAllUsuarios()
         {
@@ -130,6 +114,22 @@ namespace LaEstacion.Repository.Usuarios
             catch (Exception ex)
             {
                 throw new Exception("Error al iniciar sesión...", ex);
+            }
+        }
+
+        // Agrega un método para generar el hash de la contraseña
+        private string GenerarPasswordHash(string password)
+        {
+            try
+            {
+                // Utiliza BCrypt.Net para generar el hash de la contraseña
+                return BCryptNet.HashPassword(password);
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier excepción que pueda ocurrir durante la generación del hash
+                Console.WriteLine($"Error al generar el hash de la contraseña: {ex.Message}");
+                throw;
             }
         }
 
