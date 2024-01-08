@@ -13,17 +13,17 @@ namespace LaEstacion.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUsuarioRepository _repository;
+        private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
 
-        public UsersController(IUsuarioRepository repository, IMapper mapper)
+        public UsersController(IUserRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> UsuarioLogIn([FromBody] UsuarioLogInRequest loginRequest)
+        public async Task<ActionResult> UsuarioLogIn(UserLogInRequest loginRequest)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace LaEstacion.Controllers
 
                 // Aquí puedes agregar lógica adicional después de iniciar sesión con éxito
 
-                var response = _mapper.Map<UsuarioResponse>(usuario);
+                var response = _mapper.Map<UserResponse>(usuario);
                 return StatusCode(StatusCodes.Status200OK, response);
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace LaEstacion.Controllers
             {
                 var usuario = await _repository.GetAllUsuarios();
 
-                var response = _mapper.Map<List<UsuarioResponse>>(usuario);
+                var response = _mapper.Map<List<UserResponse>>(usuario);
 
                 return StatusCode(StatusCodes.Status200OK, response);
             }
@@ -73,7 +73,7 @@ namespace LaEstacion.Controllers
 
                 if (usuario is null) return StatusCode(StatusCodes.Status404NotFound);
 
-                var response = _mapper.Map<UsuarioResponse>(usuario);
+                var response = _mapper.Map<UserResponse>(usuario);
 
                 return StatusCode(StatusCodes.Status200OK, response);
             }
@@ -93,7 +93,7 @@ namespace LaEstacion.Controllers
 
                 await _repository.AddUsuario(usuarioToAdd);
 
-                var response = _mapper.Map<UsuarioResponse>(usuarioToAdd);
+                var response = _mapper.Map<UserResponse>(usuarioToAdd);
 
                 return StatusCode(StatusCodes.Status201Created, response);
             }
@@ -135,7 +135,7 @@ namespace LaEstacion.Controllers
 
                 await _repository.UpdateUsuario(usuarioToUpdate, existingUsuario);
 
-                var response = _mapper.Map<UsuarioResponse>(usuarioToUpdate);
+                var response = _mapper.Map<UserResponse>(usuarioToUpdate);
 
                 return StatusCode(StatusCodes.Status200OK, response);
             }

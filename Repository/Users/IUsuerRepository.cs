@@ -2,7 +2,7 @@
 
 namespace LaEstacion.Repository.Users
 {
-    public interface IUsuarioRepository
+    public interface IUserRepository
     {
         Task<List<UserModel>> GetAllUsuarios();
         Task<UserModel?> GetUsuarioById(int usuarioId);
