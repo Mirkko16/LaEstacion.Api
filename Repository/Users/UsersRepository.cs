@@ -79,11 +79,16 @@ namespace LaEstacion.Repository.Usuarios
         {
             try
             {
+
                 existingUsuario.Nombre = usuario.Nombre;
                 existingUsuario.Apellido = usuario.Apellido;
                 existingUsuario.Username = usuario.Username;
-                existingUsuario.Password = usuario.Password;
-                existingUsuario.PasswordHash = usuario.PasswordHash;
+                // Verifica si la contraseña ha cambiado antes de actualizar el hash
+                if (existingUsuario.Password != usuario.Password)
+                {
+                    existingUsuario.Password = usuario.Password;
+                    existingUsuario.PasswordHash = GenerarPasswordHash(usuario.Password);
+                }
                 existingUsuario.Correo = usuario.Correo;
                 existingUsuario.Rol = usuario.Rol;
                 existingUsuario.Activo = usuario.Activo;
