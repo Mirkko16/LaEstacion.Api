@@ -30,6 +30,7 @@ namespace LaEstacion.AutoMapper
             CreateMap<ProductoModel, ProductoResponse>().ReverseMap();
             CreateMap<ProductoModel, ProductoUpdateRequest>().ReverseMap();
             CreateMap<ProductoModel, ProductoRequest>().ReverseMap();
+            CreateMap<ProductoModel, ProductoVendidoRequest>().ReverseMap();
 
             //Marcas
             CreateMap<MarcaModel, MarcaResponse>().ReverseMap();
@@ -54,13 +55,17 @@ namespace LaEstacion.AutoMapper
             // ProductosVendidos
             CreateMap<ProductoVendidoModel, ProductoVendidoResponse>().ReverseMap();
             CreateMap<ProductoVendidoModel, ProductoVendidoUpdateRequest>().ReverseMap();
-            CreateMap<ProductoVendidoModel, ProductoVendidoRequest>().ReverseMap();
+            CreateMap<ProductoVendidoModel, ProductoVendidoRequest>()
+                .ForMember(dest => dest.ProductoId, opt => opt.MapFrom(src => src.Producto.Id)).ReverseMap();
 
 
             // Ventas
             CreateMap<VentaModel, VentaResponse>().ReverseMap();
             CreateMap<VentaModel, VentaUpdateRequest>().ReverseMap();
-            CreateMap<VentaModel, VentaRequest>().ReverseMap();
+            CreateMap<VentaModel, VentaRequest>()
+                .ForMember(dest => dest.Productos, 
+                           src => src.MapFrom(d => d.Productos))
+                .ReverseMap();
 
         }
     }

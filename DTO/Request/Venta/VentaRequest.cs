@@ -9,7 +9,7 @@ namespace LaEstacion.DTO.Request.Venta
         public int NumVenta { get; set; }
         public int PuntoVenta { get; set; }
         public int ClienteId  { get; set; }
-        public List<ProductoVendidoRequest> Producto { get; set; }
+        public List<ProductoVendidoRequest> Productos { get; set; }
         public DateTime FechaVenta { get; set; }
         public string TipoPago { get; set; }
         public string TipoComprobante { get; set; }
