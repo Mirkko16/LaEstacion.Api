@@ -11,6 +11,8 @@ using LaEstacion.Repository.Unidades;
 using LaEstacion.Repository.Ventas;
 using Hangfire;
 using Microsoft.Extensions.Hosting;
+using LaEstacion.Repository.Users;
+using LaEstacion.Repository.Usuarios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,8 @@ builder.Services.AddScoped<IRubroRepository, RubrosRepository>();
 builder.Services.AddScoped<IUnidadRepository, UnidadesRepository>();
 builder.Services.AddScoped<IProductoVendidoRepository, ProductosVendidosRepository>();
 builder.Services.AddScoped<IVentaRepository, VentasRepository>();
+builder.Services.AddScoped<IUserRepository, UsersRepository>();
+
 
 
 var sqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");

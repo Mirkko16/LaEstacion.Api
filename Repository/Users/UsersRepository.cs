@@ -2,14 +2,15 @@
 using LaEstacion.Persistence.Common.Model;
 using LaEstacion.Repository.Users;
 using Microsoft.EntityFrameworkCore;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace LaEstacion.Repository.Usuarios
 {
-    public class UsuariosRepository : IUsuarioRepository
+    public class UsersRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public UsuariosRepository(ApplicationDbContext context)
+        public UsersRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -18,13 +19,16 @@ namespace LaEstacion.Repository.Usuarios
         {
             try
             {
+                // Genera el hash de la contraseña antes de almacenarla en la base de datos
+                usuario.PasswordHash = GenerarPasswordHash(usuario.Password);
+
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
                 return usuario;
             }
             catch (Exception ex)
             {
-                throw new Exception("Fallo al insertar unidad", ex);
+                throw new Exception("Fallo al insertar usuario", ex);
             }
         }
 
@@ -76,8 +80,18 @@ namespace LaEstacion.Repository.Usuarios
             try
             {
 
-                existingUsuario.Password = usuario.Password;
+                existingUsuario.Nombre = usuario.Nombre;
+                existingUsuario.Apellido = usuario.Apellido;
+                existingUsuario.Username = usuario.Username;
+                // Verifica si la contraseña ha cambiado antes de actualizar el hash
+                if (existingUsuario.Password != usuario.Password)
+                {
+                    existingUsuario.Password = usuario.Password;
+                    existingUsuario.PasswordHash = GenerarPasswordHash(usuario.Password);
+                }
+                existingUsuario.Correo = usuario.Correo;
                 existingUsuario.Rol = usuario.Rol;
+                existingUsuario.Activo = usuario.Activo;
 
                 await _context.SaveChangesAsync();
                 return existingUsuario;
@@ -88,17 +102,54 @@ namespace LaEstacion.Repository.Usuarios
             }
         }
 
-        public async Task<UserModel?> UsuarioLogIn(string userlogin, string password)
+        public async Task<UserModel?> UsuarioLogIn(string username, string password)
         {
             try
             {
-                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == userlogin && u.Password == password);
-                return usuario;
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+
+                // Verifica si el usuario existe y compara el hash de la contraseña
+                if (usuario != null && VerificarPasswordHash(password, usuario.PasswordHash))
+                {
+                    return usuario;
+                }
+
+                return null;
             }
             catch (Exception ex)
             {
+                throw new Exception("Error al iniciar sesión...", ex);
+            }
+        }
 
-                throw new Exception("Error al iniciar sesion...");
+        // Agrega un método para generar el hash de la contraseña
+        private string GenerarPasswordHash(string password)
+        {
+            try
+            {
+                // Utiliza BCrypt.Net para generar el hash de la contraseña
+                return BCryptNet.HashPassword(password);
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier excepción que pueda ocurrir durante la generación del hash
+                Console.WriteLine($"Error al generar el hash de la contraseña: {ex.Message}");
+                throw;
+            }
+        }
+
+        private bool VerificarPasswordHash(string password, string storedHash)
+        {
+            try
+            {
+                // Compara el hash almacenado con el hash de la contraseña proporcionada
+                return BCryptNet.Verify(password, storedHash);
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier excepción que pueda ocurrir durante la verificación
+                Console.WriteLine($"Error al verificar el hash de la contraseña: {ex.Message}");
+                return false;
             }
         }
     }
